@@ -4,7 +4,7 @@ version = "0.1.0"
 
 [dependencies]
 psiri-aes = { workspace = true }
-lambdaworks_math = { git = "https://github.com/lambdaclass/lambdaworks.git", package = "lambdaworks-math" }
+lambdaworks_math = { git = "https://github.com/manyagarggg/lambdaworks.git", package = "lambdaworks-math" }
 sp-core = "26.0"
 thiserror = "1.0"
 aes-gcm = "0.10"

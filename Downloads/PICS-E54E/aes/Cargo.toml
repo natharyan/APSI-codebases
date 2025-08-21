@@ -3,7 +3,7 @@ name = "psiri-aes"
 version = "0.1.0"
 
 [dependencies]
-lambdaworks_math = { git = "https://github.com/lambdaclass/lambdaworks.git", package = "lambdaworks-math" }
+lambdaworks_math = { git = "https://github.com/manyagarggg/lambdaworks.git", package = "lambdaworks-math" }
 aes = "0.8.4"
 sha2 = "0.10.8"
 rand = "0.8"
