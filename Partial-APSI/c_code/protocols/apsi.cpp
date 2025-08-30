@@ -205,6 +205,10 @@ int APSI(set<string> xs, set<string> ys, NetworkSimulator &net)
 	Fr sk;
 	G2 pk;
 	KeyGen(sk, pk, Q);
+    // send pk to the client and server
+    net.sendServerToClient(pk.getStr(256).c_str());
+    net.sendServerToClient(pk.getStr(256).c_str());
+
 
     // Client sends its set to the judge for signing
     printf("Client sending %zu elements to Judge for signing\n", xs.size());
@@ -252,6 +256,8 @@ int APSI(set<string> xs, set<string> ys, NetworkSimulator &net)
 	KeyGen(s, S, Q);
 	G2 pks;
 	G2::mul(pks, pk, s);
+    // send S to the client
+    net.sendServerToClient(S.getStr(256).c_str());
 
 	vector<string> new_ys;
 	for (string y: ys) {
