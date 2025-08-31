@@ -18,11 +18,13 @@ vector<uint256_t> gen_elligator_messages(vector<uint256_t> messages, size_t num_
 
 size_t H_bin(const uint8_t hash[32], size_t bin_size);
 
-vector<uint256_t> Lagrange_Polynomial(vector<uint256_t> poly, const vector<uint256_t> points, size_t start_index);
+uint256_t H_2(const uint256_t& x_i, const uint256_t& k_i);
+
+vector<uint256_t> Lagrange_Polynomial(vector<uint256_t> inputs, const vector<uint256_t> evaluations);
 
 uint256_t Merkle_Root_Receiver(vector<vector<uint256_t>> leaves);
 
-// Append input values with the ideal permutation of the random values and compute the Merkle root
+// Compute the Merkle root after appending input values with the ideal permutation of the random values
 uint256_t Merkle_Root_Sender(vector<uint256_t> input, vector<uint256_t> random_values);
 
 

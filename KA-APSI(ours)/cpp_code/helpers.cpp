@@ -34,3 +34,15 @@ size_t H_bin(const uint8_t hash[32], size_t bin_size) {
     memcpy(&bin_index, hash, sizeof(bin_index));
     return bin_index % bin_size;
 }
+
+uint256_t H_2(const uint256_t& x_i, const uint256_t& k_i) {
+    // Concatenate x_i and k_i
+    uint8_t input[64];
+    memcpy(input, x_i.bytes, 32);
+    memcpy(input + 32, k_i.bytes, 32);
+    
+    // Hash the concatenation
+    uint256_t result;
+    crypto_blake2b(result.bytes, sizeof(result.bytes), input, sizeof(input));
+    return result;
+}
