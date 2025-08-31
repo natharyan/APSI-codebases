@@ -12,9 +12,9 @@ struct uint256_t {
     uint8_t bytes[32];
 };
 
-// Function to generate Elligator messages.
-// Input: pointer to a buffer to hold the KA messages, number of KA messages to generate
-vector<uint256_t> gen_elligator_messages(vector<uint256_t> messages, size_t num_messages);
+// Function to generate randomness and Elligator messages
+// Input: number of KA messages to generate.
+pair<vector<uint256_t>, vector<uint256_t>> gen_elligator_messages(size_t num_messages);
 
 size_t H_bin(const uint8_t hash[32], size_t bin_size);
 

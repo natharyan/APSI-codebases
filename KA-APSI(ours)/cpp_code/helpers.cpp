@@ -7,25 +7,26 @@
 
 using namespace std;
 
-// Function to generate Elligator messages.
-// Input: pointer to a buffer to hold the KA messages, number of KA messages to generate.
-vector<uint256_t> gen_elligator_messages(vector<uint256_t> messages, size_t num_messages) {
+pair<vector<uint256_t>, vector<uint256_t>> gen_elligator_messages(size_t num_messages) {
+    vector<uint256_t> messages(num_messages);
+    vector<uint256_t> randomness(num_messages);
     for (size_t i = 0; i < num_messages; i++) {
-        uint8_t scalar[32];
+        uint8_t b_i[32];
         random_device rd;
         for (size_t j = 0; j < 32; j++) {
-            scalar[j] = rd() & 0xFF;
+            b_i[j] = rd() & 0xFF;
         }
         // Compute g^b using X25519
         uint8_t g_b[32];
-        crypto_x25519_public_key(g_b, scalar);
+        crypto_x25519_public_key(g_b, b_i);
         // Elligator encoding
         uint8_t encoded[32];
         crypto_elligator_map(encoded, g_b);
 
         memcpy(&messages[i], encoded, 32);
+        memcpy(&randomness[i], b_i, 32);
     }
-    return messages;
+    return make_pair(messages, randomness);
 }
 
 // Hash elements to bin indices in [0,n/log(n)-1], where n is the input size of the receiver
