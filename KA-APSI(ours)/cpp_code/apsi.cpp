@@ -45,15 +45,18 @@ public:
 
         random_values = vector<uint256_t>();
         merkle_root_sender = uint256_t();
+        merkle_leaves = vector<uint256_t>();
     }
 
 uint256_t merkle_root_sender;
 private:
-     vector<uint256_t> input;
+    vector<uint256_t> input;
     size_t input_len;
     vector<uint256_t> random_values;
+    vector<uint256_t> merkle_leaves;
 
     friend void commit_Sender(Sender &sender);
+    friend void intersect(Receiver &receiver, Sender &sender);
     
 };
 
@@ -62,6 +65,7 @@ void commit_Receiver(Receiver &receiver){
     // 1. Generate KA messages.
     receiver.ka_messages.resize(receiver.input_len); // each KA message is 32 bytes
     receiver.ka_messages = gen_elligator_messages(receiver.ka_messages, receiver.input_len);
+    // TODO: add Rijndael-256 on the ka messages
     // 2. Create uniform hashing table.
     uint64_t bin_size = receiver.input_len / log2(receiver.input_len); // n/log(n)
     std::vector<std::vector<uint256_t>> T_Rec(bin_size);
@@ -82,28 +86,40 @@ void commit_Receiver(Receiver &receiver){
         if (bin_elements.empty()) {
             continue;
         }
-        // TODO: add optimized lagrange.
+        // TODO: add optimized lagrange (Manya)
         // Lagrange interpolation from ka_counter to ka_counter + bin_elements.size() - 1
         receiver.polys.push_back(Lagrange_Polynomial(bin_elements, receiver.ka_messages, ka_counter));
         ka_counter += bin_elements.size();
     }
 
     // 4. Merkle tree root using the evaluations at roots of unity.
-    // TODO: add computer merkle tree
-    receiver.merkle_root_receiver = Compute_Merkle_Root(receiver.polys);
+    // TODO: add computer merkle tree (Manya)
+    receiver.merkle_root_receiver = Merkle_Root_Receiver(receiver.polys);
 
 }
 
 void commit_Sender(Sender &sender){
-    // 1. Receive the Merkle root from the receiver.
-    // 2. Generate random values.
-    // 3. Create a Merkle tree using the random values.
-    // 4. Send the Merkle root to the receiver.
+    // 1. Generate input_len random field elements.
+    for (size_t i = 0; i < sender.input_len; i++) {
+        uint8_t random_value[32];
+        random_device rd;
+        for (size_t j = 0; j < 32; j++) {
+            random_value[j] = rd() & 0xFF;
+        }
+        memcpy(&sender.random_values[i], random_value, 32);
+    }
+
+    // 2. Compute the Merkle root using the random values.
+    sender.merkle_root_sender = Merkle_Root_Sender(sender.input,sender.random_values);
 
 }
 
 void intersect(Receiver &receiver, Sender &sender) {
-    
+    // 1. Receiver sends polynomials to the sender.
+
+    // 2. Sender aborts if the Merkle root does not match.
+
+    // 3. Sender 
 
 }
 

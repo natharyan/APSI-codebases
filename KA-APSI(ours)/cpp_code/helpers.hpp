@@ -20,7 +20,10 @@ size_t H_bin(const uint8_t hash[32], size_t bin_size);
 
 vector<uint256_t> Lagrange_Polynomial(vector<uint256_t> poly, const vector<uint256_t> points, size_t start_index);
 
-uint256_t Compute_Merkle_Root(vector<vector<uint256_t>> leaves);
+uint256_t Merkle_Root_Receiver(vector<vector<uint256_t>> leaves);
+
+// Append input values with the ideal permutation of the random values and compute the Merkle root
+uint256_t Merkle_Root_Sender(vector<uint256_t> input, vector<uint256_t> random_values);
 
 
 inline bool operator==(const uint256_t& a, const uint256_t& b) {

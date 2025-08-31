@@ -28,6 +28,7 @@ vector<uint256_t> gen_elligator_messages(vector<uint256_t> messages, size_t num_
     return messages;
 }
 
+// Hash elements to bin indices in [0,n/log(n)-1], where n is the input size of the receiver
 size_t H_bin(const uint8_t hash[32], size_t bin_size) {
     uint64_t bin_index;
     memcpy(&bin_index, hash, sizeof(bin_index));
