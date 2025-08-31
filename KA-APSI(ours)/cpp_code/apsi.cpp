@@ -13,7 +13,6 @@ using namespace std;
 // 3. Send the polynomial.
 // 4. Receiver computes the intersection.
 
-// Class for the receiver to hold its own input, KA messages, polynomial private to the receiver, and merkle root of the sender.
 class Receiver {
 public:
     // Constructor
@@ -37,7 +36,6 @@ private:
     // friend void - intersect 1 and 2
 };
 
-// Class for the sender to hold its own input, random values, and its merkle root.
 class Sender {
 public:
     // Constructor
@@ -60,7 +58,6 @@ private:
 };
 
 // Commitment phase for the receiver.
-// Create KA messages, uniform hashing table, polynomials using hashing table, merkle tree root using the evaluations at roots of unity, and send the merkle root to the sender.
 void commit_Receiver(Receiver &receiver){
     // 1. Generate KA messages.
     receiver.ka_messages.resize(receiver.input_len); // each KA message is 32 bytes
@@ -72,7 +69,7 @@ void commit_Receiver(Receiver &receiver){
     for (const auto& current_message : receiver.ka_messages) {
         uint8_t hash[32];
         crypto_blake2b(hash, sizeof(hash), current_message.bytes, 32);
-        size_t bin_index = hash_to_bin(hash, bin_size);
+        size_t bin_index = H_bin(hash, bin_size);
         T_Rec[bin_index].push_back(current_message);
     }
     
@@ -87,13 +84,14 @@ void commit_Receiver(Receiver &receiver){
         }
         // TODO: add optimized lagrange.
         // Lagrange interpolation from ka_counter to ka_counter + bin_elements.size() - 1
-        receiver.polys.push_back(create_lagrange_polynomial(bin_elements, receiver.ka_messages, ka_counter));
+        receiver.polys.push_back(Lagrange_Polynomial(bin_elements, receiver.ka_messages, ka_counter));
         ka_counter += bin_elements.size();
     }
 
     // 4. Merkle tree root using the evaluations at roots of unity.
     // TODO: add computer merkle tree
-    receiver.merkle_root_receiver = compute_merkle_root(receiver.polys);
+    receiver.merkle_root_receiver = Compute_Merkle_Root(receiver.polys);
+
 }
 
 void commit_Sender(Sender &sender){
@@ -101,6 +99,11 @@ void commit_Sender(Sender &sender){
     // 2. Generate random values.
     // 3. Create a Merkle tree using the random values.
     // 4. Send the Merkle root to the receiver.
+
+}
+
+void intersect(Receiver &receiver, Sender &sender) {
+    
 
 }
 

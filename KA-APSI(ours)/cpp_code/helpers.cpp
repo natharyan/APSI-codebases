@@ -28,7 +28,7 @@ vector<uint256_t> gen_elligator_messages(vector<uint256_t> messages, size_t num_
     return messages;
 }
 
-size_t hash_to_bin(const uint8_t hash[32], size_t bin_size) {
+size_t H_bin(const uint8_t hash[32], size_t bin_size) {
     uint64_t bin_index;
     memcpy(&bin_index, hash, sizeof(bin_index));
     return bin_index % bin_size;

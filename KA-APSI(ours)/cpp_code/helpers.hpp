@@ -16,11 +16,11 @@ struct uint256_t {
 // Input: pointer to a buffer to hold the KA messages, number of KA messages to generate
 vector<uint256_t> gen_elligator_messages(vector<uint256_t> messages, size_t num_messages);
 
-size_t hash_to_bin(const uint8_t hash[32], size_t bin_size);
+size_t H_bin(const uint8_t hash[32], size_t bin_size);
 
-vector<uint256_t> create_lagrange_polynomial(vector<uint256_t> poly, const vector<uint256_t> points, size_t start_index);
+vector<uint256_t> Lagrange_Polynomial(vector<uint256_t> poly, const vector<uint256_t> points, size_t start_index);
 
-uint256_t compute_merkle_root(vector<vector<uint256_t>> leaves);
+uint256_t Compute_Merkle_Root(vector<vector<uint256_t>> leaves);
 
 
 inline bool operator==(const uint256_t& a, const uint256_t& b) {
