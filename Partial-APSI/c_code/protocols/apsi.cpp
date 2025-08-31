@@ -206,6 +206,7 @@ int APSI(set<string> xs, set<string> ys, NetworkSimulator &net)
 	G2 pk;
 	KeyGen(sk, pk, Q);
     // send pk to the client and server
+    printf("Judge sending public key to Client and Server\n");
     net.sendServerToClient(pk.getStr(256).c_str());
     net.sendServerToClient(pk.getStr(256).c_str());
 
@@ -249,7 +250,7 @@ int APSI(set<string> xs, set<string> ys, NetworkSimulator &net)
 
 	// Beginning of the intersection phase. 
 	// The server processes their elements and sends them to the client
-    printf("Server sending %zu elements to Client for intersection after processing\n", ys.size());
+    printf("Server sending %zu elements and S to Client for intersection after processing\n", ys.size());
 	t1 = high_resolution_clock::now();
 	Fr s;
 	G2 S;
