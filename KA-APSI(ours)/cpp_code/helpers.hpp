@@ -2,10 +2,13 @@
 #include <iomanip>
 #include <cstring>
 #include <random>
+#include <NTL/ZZ_p.h>
+#include <NTL/ZZ_pX.h>
 #include <vector>
 #include "monocypher.hpp"
 
 using namespace std;
+using namespace NTL;
 
 // Array of 32 elements of 8 bits each
 struct uint256_t {
@@ -20,13 +23,26 @@ size_t H_bin(const uint8_t hash[32], size_t bin_size);
 
 uint256_t H_2(const uint256_t& x_i, const uint256_t& k_i);
 
+ZZ bytes_to_ZZ(const uint256_t& num); 
+
+uint256_t ZZ_to_bytes(const ZZ& num); 
+
 vector<uint256_t> Lagrange_Polynomial(vector<uint256_t> inputs, const vector<uint256_t> evaluations);
+
+void test_interpolation_result(const vector<uint256_t>& coeffs,
+                              const vector<uint256_t>& x,
+                              const vector<uint256_t>& y); 
+
+uint256_t combine_hashes(const uint256_t& left, const uint256_t& right); 
+
+uint256_t bytes_to_field(const uint8_t* bytes); 
 
 uint256_t Merkle_Root_Receiver(vector<vector<uint256_t>> leaves);
 
 // Compute the Merkle root after appending input values with the ideal permutation of the random values
 uint256_t Merkle_Root_Sender(vector<uint256_t> input, vector<uint256_t> random_values);
 
+uint256_t evaluate_poly(const vector<uint256_t>& poly, const uint8_t* point_bytes); 
 
 inline bool operator==(const uint256_t& a, const uint256_t& b) {
     return memcmp(a.bytes, b.bytes, 32) == 0;
